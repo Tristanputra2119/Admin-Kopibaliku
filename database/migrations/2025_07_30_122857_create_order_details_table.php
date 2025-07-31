@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kopi', function (Blueprint $table) {
+        Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_kopi');
-            $table->string('jenis_kopi');
-            $table->integer('stok');
-            $table->integer('harga');
-            $table->text('deskripsi')->nullable();
-            $table->string('gambar')->nullable();
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->integer('qty');
+            $table->integer('price');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kopi');
+        Schema::dropIfExists('order_details');
     }
 };

@@ -5,25 +5,23 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
-
 use Laravel\Nova\Fields\Text;
-class User extends Resource
+use Laravel\Nova\Fields\HasMany;
+class Category extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Category>
      */
-    public static $model = \App\Models\User::class;
-
-
+    public static $model = \App\Models\Category::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -43,8 +41,9 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Name'),
-            Text::make('Email'),
+            Text::make('Nama Kategori', 'name')->rules('required'),
+            Text::make('Deskripsi', 'description')->hideFromIndex(),
+            HasMany::make('Produk', 'products', Product::class),
         ];
     }
 

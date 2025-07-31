@@ -4,28 +4,24 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Http\Requests\NovaRequest;
-
-class Kopi extends Resource
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\HasMany;
+class Customer extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Kopi>
+     * @var class-string<\App\Models\Customer>
      */
-    public static $model = \App\Models\Kopi::class;
+    public static $model = \App\Models\Customer::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'nama_kopi';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -33,16 +29,8 @@ class Kopi extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'nama_kopi', 'jenis_kopi',
+        'id','name', 'email', 'phone'
     ];
-
-    /**
-     * Label to show in sidebar.
-     */
-    public static function label(): string
-    {
-        return 'Kopi';
-    }
 
     /**
      * Get the fields displayed by the resource.
@@ -53,36 +41,11 @@ class Kopi extends Resource
     {
         return [
             ID::make()->sortable(),
-
-            Text::make('Nama Kopi')
-                ->rules('required', 'max:255')
-                ->sortable(),
-
-            Text::make('Jenis Kopi')
-                ->rules('required', 'max:255'),
-
-            Number::make('Stok')
-                ->rules('required', 'min:0'),
-
-            Number::make('Harga')
-                ->rules('required', 'min:0'),
-
-            Textarea::make('Deskripsi')
-                ->alwaysShow(),
-
-            Image::make('Gambar')
-                ->disk('public')
-                ->path('gambar_kopi')
-                ->preview(function () {
-                    return $this->gambar ? asset('storage/' . $this->gambar) : null;
-                })
-                ->thumbnail(function () {
-                    return $this->gambar ? asset('storage/' . $this->gambar) : null;
-                })
-                ->rules('nullable', 'image', 'max:2048'),
-
-            DateTime::make('Created At')->onlyOnDetail(),
-            DateTime::make('Updated At')->onlyOnDetail(),
+            Text::make('Nama', 'name')->rules('required'),
+            Text::make('Email')->rules('required', 'email')->sortable(),
+            Text::make('Alamat', 'address')->hideFromIndex(),
+            Text::make('Telepon', 'phone')->hideFromIndex(),
+            HasMany::make('Pesanan', 'orders', Order::class),
         ];
     }
 

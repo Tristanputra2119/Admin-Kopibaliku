@@ -5,25 +5,26 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
-
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
-class User extends Resource
+use Laravel\Nova\Fields\Number;
+use App\Nova\User;
+class Order extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Order>
      */
-    public static $model = \App\Models\User::class;
-
-
+    public static $model = \App\Models\Order::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'invoice';
 
     /**
      * The columns that should be searched.
@@ -31,7 +32,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id','name',
+        'id',
     ];
 
     /**
@@ -43,8 +44,11 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Name'),
-            Text::make('Email'),
+            Text::make('Invoice')->sortable()->rules('required'),
+            Number::make('Total')->rules('required'),
+            BelongsTo::make('Pelanggan', 'customer', Customer::class),
+            BelongsTo::make('User', 'user', User::class),
+            HasMany::make('Detail Pesanan', 'details', OrderDetail::class),
         ];
     }
 

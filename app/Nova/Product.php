@@ -5,18 +5,18 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
-
 use Laravel\Nova\Fields\Text;
-class User extends Resource
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\BelongsTo;
+
+class Product extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Product>
      */
-    public static $model = \App\Models\User::class;
-
-
+    public static $model = \App\Models\Product::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -43,8 +43,24 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Name'),
-            Text::make('Email'),
+
+            Text::make('Name', 'name')
+                ->sortable()
+                ->rules('required', 'max:191'),
+
+            Text::make('Description', 'description')
+                ->hideFromIndex(),
+
+            Number::make('Stock', 'stock')
+                ->rules('required', 'numeric'),
+
+            Number::make('Price', 'price')
+                ->rules('required', 'numeric'),
+
+            BelongsTo::make('Category', 'category', Category::class)
+                ->sortable()
+                ->display('name')
+                ->searchable(),
         ];
     }
 
