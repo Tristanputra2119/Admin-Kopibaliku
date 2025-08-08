@@ -27,9 +27,9 @@ class TotalOrders extends Trend
     public function ranges(): array
     {
         return [
-            30 => Nova::__('30 Days'),
-            60 => Nova::__('60 Days'),
-            90 => Nova::__('90 Days'),
+            // 30 => Nova::__('30 Days'),
+            // 60 => Nova::__('60 Days'),
+            // 90 => Nova::__('90 Days'),
         ];
     }
 

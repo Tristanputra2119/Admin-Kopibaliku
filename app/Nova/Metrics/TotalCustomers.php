@@ -16,7 +16,7 @@ class TotalCustomers extends Trend
      */
     public function calculate(NovaRequest $request): TrendResult
     {
-        return $this->countByDays($request, Customer::class);
+      return $this->result(Customer::count());
     }
 
     /**
@@ -27,9 +27,7 @@ class TotalCustomers extends Trend
     public function ranges(): array
     {
         return [
-            30 => Nova::__('30 Days'),
-            60 => Nova::__('60 Days'),
-            90 => Nova::__('90 Days'),
+           
         ];
     }
 

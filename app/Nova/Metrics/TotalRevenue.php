@@ -5,11 +5,12 @@ namespace App\Nova\Metrics;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use DateTimeInterface;
+use DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
 use Laravel\Nova\Nova;
-Use Brick\Money\Money;
+
 class TotalRevenue extends Trend
 {
     /**
