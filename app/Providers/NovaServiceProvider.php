@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Fortify\Features;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
-
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
@@ -17,7 +18,31 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
 
-        //
+        Nova::mainMenu(function ($request) {
+            return [
+
+                // MASTER DATA
+                MenuSection::make('Master Data', [
+                    MenuItem::resource(\App\Nova\Product::class),
+                    MenuItem::resource(\App\Nova\Customer::class),
+                    MenuItem::resource(\App\Nova\User::class),
+                ])->icon('database')->collapsable(),
+
+                // TRANSAKSI
+                MenuSection::make('Transaksi', [
+                    MenuItem::resource(\App\Nova\Order::class),
+                ])->icon('shopping-cart')->collapsable(),
+
+                // LAPORAN
+                MenuSection::make('Laporan', [
+                    MenuItem::link('Laporan Penjualan', '/reports/sales'),
+                    MenuItem::link('Laporan Stok', '/reports/stock'),
+                ])->icon('database')->collapsable(),
+            ];
+        });
+        Nova::serving(function () {
+            Nova::disableNotifications();
+        });
     }
 
     /**
@@ -28,7 +53,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::fortify()
             ->features([
                 Features::updatePasswords(),
-                // Features::emailVerification(),
+                 Features::emailVerification(),
                 // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
             ])
             ->register();

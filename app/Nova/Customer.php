@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\HasMany;
@@ -44,7 +45,7 @@ class Customer extends Resource
             Text::make('Nama', 'name')->rules('required'),
             Text::make('Email')->rules('required', 'email')->sortable(),
             Text::make('Alamat', 'address')->hideFromIndex(),
-            Text::make('Telepon', 'phone')->hideFromIndex(),
+            Number::make('Telepon', 'phone')->hideFromIndex(),
             HasMany::make('Pesanan', 'orders', Order::class),
         ];
     }

@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('invoice', 191)->unique();
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->integer('total');
+            $table->integer('quantity'); // gram
+            $table->integer('price');    // snapshot harga per gram dari products
+            $table->integer('total');    // quantity * price
+            $table->text('image')->nullable();
             $table->timestamps();
         });
     }

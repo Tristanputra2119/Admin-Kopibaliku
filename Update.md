@@ -8,3 +8,13 @@
 
 # Update 8 Agustus 2025
 Fix something and continue to debug
+
+# Update 18 Agustus 2025
+Adding Image fieid in orders and testing now
+Fuc* Complete rework now!! 
+
+# Update 19 August 2025
+Make new migration for order and products, adding unit and quantity and adding new image, tommorow will be testing a new features
+
+# Update 20 August 2025
+Remake Menu bar in nova, and changing the icon in laravel nova, adding new features to make statistics and new improvements

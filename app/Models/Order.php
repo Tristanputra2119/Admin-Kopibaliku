@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $table = 'orders';
-    protected $fillable = ['invoice', 'customer_id', 'user_id', 'total'];
+    protected $fillable = ['invoice', 'product_id', 'customer_id', 'quantity', 'price', 'total'];
 
     public function customer()
     {
@@ -19,8 +19,17 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function details()
+    public function product()
     {
-        return $this->hasMany(OrderDetail::class);
+        return $this->belongsTo(Product::class);
+    }
+    protected static function booted()
+    {
+        static::saving(function ($order) {
+            if ($order->product) {
+                $order->price = $order->product->price; // snapshot harga per gram
+                $order->total = $order->quantity * $order->price;
+            }
+        });
     }
 }

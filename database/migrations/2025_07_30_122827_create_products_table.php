@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name', 191);
             $table->string('description', 191)->nullable();
-            $table->string('stock', 191);
-            $table->string('price', 191);
+            $table->integer('stock'); // simpan stok dalam gram
+            $table->integer('price'); // harga per gram
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

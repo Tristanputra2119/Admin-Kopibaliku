@@ -20,12 +20,11 @@ class Main extends Dashboard
     public function cards(): array
     {
         return [
-            new TotalProduct,
-            new TotalCategory(),
-            new TotalCustomers(),
-            new TotalOrders(),
-            new TotalRevenue(),
-//            new MonthlySales,
+//            new TotalProduct,
+//            new TotalCategory(),
+//            new TotalCustomers(),
+//            new TotalOrders(),
+//            new TotalRevenue(),
         ];
     }
 }

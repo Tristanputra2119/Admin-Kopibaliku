@@ -7,7 +7,7 @@ use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
-use Laravel\Nova\Nova;
+
 
 class TotalProduct extends Trend
 {

@@ -2,14 +2,13 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\Order;
+
 use App\Models\OrderDetail;
 use DateTimeInterface;
-use DB;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
-use Laravel\Nova\Nova;
+use Illuminate\Support\Facades\DB;
 
 class TotalRevenue extends Trend
 {
@@ -18,7 +17,8 @@ class TotalRevenue extends Trend
      */
     public function calculate(NovaRequest $request): TrendResult
     {
-        $total = OrderDetail::sum(\DB::raw('qty * price'));
+        $total = OrderDetail::sum(DB::raw('qty * price'));
+       
 
         return $this->result($total)
             ->format(',0')

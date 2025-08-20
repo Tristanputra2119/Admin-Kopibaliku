@@ -9,6 +9,8 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Select;
 use App\Nova\User;
 class Order extends Resource
 {
@@ -32,7 +34,7 @@ class Order extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id','invoice'
     ];
 
     /**
@@ -44,11 +46,38 @@ class Order extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Invoice')->sortable()->rules('required'),
-            Number::make('Total')->rules('required'),
-            BelongsTo::make('Pelanggan', 'customer', Customer::class),
-            BelongsTo::make('User', 'user', User::class),
-            HasMany::make('Detail Pesanan', 'details', OrderDetail::class),
+
+            Text::make('Invoice')
+                ->sortable()
+                ->rules('required'),
+
+            BelongsTo::make('Product', 'product', Product::class)
+                ->rules('required'),
+
+            BelongsTo::make('Customer', 'customer', Customer::class)
+                ->rules('required'),
+
+            // Dropdown satuan
+            Select::make('Unit')
+                ->options([
+                    'g'  => 'Gram',
+                    'kg' => 'Kilogram',
+                ])
+                ->displayUsingLabels()
+                ->default('g')
+                ->rules('required'),
+
+            Number::make('Quantity')
+                ->rules('required', 'numeric', 'min:1'),
+
+            Image::make('Image', 'image')
+                ->disk('public')                // simpan di storage/app/public
+                ->path('orders')                // folder penyimpanan, misalnya "orders"
+                ->creationRules('required')     // wajib isi saat create
+                ->updateRules('nullable')       // opsional saat update
+                ->storeAs(function (Request $request) {
+                    return uniqid() . '.' . $request->image->getClientOriginalExtension();
+                }),
         ];
     }
 
