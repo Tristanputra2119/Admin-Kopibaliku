@@ -32,17 +32,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Transaksi', [
                     MenuItem::resource(\App\Nova\Order::class),
                 ])->icon('shopping-cart')->collapsable(),
-
-                // LAPORAN
-                MenuSection::make('Laporan', [
-                    MenuItem::link('Laporan Penjualan', '/reports/sales'),
-                    MenuItem::link('Laporan Stok', '/reports/stock'),
-                ])->icon('database')->collapsable(),
             ];
         });
-        Nova::serving(function () {
-            Nova::disableNotifications();
-        });
+       
     }
 
     /**
@@ -53,7 +45,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::fortify()
             ->features([
                 Features::updatePasswords(),
-                 Features::emailVerification(),
+                Features::emailVerification(),
                 // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
             ])
             ->register();

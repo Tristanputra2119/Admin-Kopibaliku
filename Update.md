@@ -18,3 +18,6 @@ Make new migration for order and products, adding unit and quantity and adding n
 
 # Update 20 August 2025
 Remake Menu bar in nova, and changing the icon in laravel nova, adding new features to make statistics and new improvements
+
+# Update 21 August 2025
+Removing Monthly Statistics, Soon adding new one
